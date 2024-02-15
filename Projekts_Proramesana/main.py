@@ -18,7 +18,7 @@ else:
     print("Izveidota jauna datne")
     Book.save("Dati.xlsx")
 
-Sheet = Book.active
+
 
 
 sakEkrn()
