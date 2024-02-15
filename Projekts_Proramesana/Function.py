@@ -50,7 +50,7 @@ else :
 i=0
 for row in lapa:
     i=i+1
-    if ac.cell(row = i,column = 1) == int(id):
+    if ac.cell(row = i,column = 1).value == int(id):
         nosk = ac.cell(row = i, column = 2).value
         skaits = ac.cell(row = i, column = 3).value
         print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
