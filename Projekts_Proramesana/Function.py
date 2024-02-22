@@ -1,5 +1,6 @@
 from openpyxl import Workbook
 from openpyxl import load_workbook
+import time
 
 ex = load_workbook("Dati.xlsx")
 ac = ex.active
@@ -15,10 +16,10 @@ def sakEkrn():
         #produkti()
     elif Izvele == "skaits":
         tirit()
-        #skaits()
+        skaits()
     elif Izvele == "rediget":
         tirit()
-        #rediget()
+        rediget()
     elif Izvele == "palīdzība":
         tirit()
         #palidziba()
@@ -38,54 +39,113 @@ def sakEkrn():
 
 
 def rediget():
-id = input("Ievadiet produkta ID :" + " ")
+    tirit()
+    id = input("Ievadiet produkta ID :" + " ")
 
-if id.isdigit() == False:
-    print("Nederīga vērtība, lūdzu ievadiet ID")
-    rediget()
+    if id.isdigit() == False:
+        tirit()
+        print("Nederīga vērtība, lūdzu ievadiet ID")
+        rediget()
 
-else :
+    else:
 
-    pass
-i=0
-for row in lapa:
-    i=i+1
-    if ac.cell(row = i,column = 1) == int(id):
-        nosk = ac.cell(row = i, column = 2).value
-        skaits = ac.cell(row = i, column = 3).value
-        print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
-        atb = input("Turpināt? : Y vai N").lower()
-
+        pass
+    i = 0
+    for row in lapa:
+        i = i+1
+        if ac.cell(row=i,column=1) == int(id):
+            nosk = ac.cell(row=i, column=2).value
+            skaits = ac.cell(row=i, column=3).value
+            print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
+            atb = input("Turpināt? : Y vai N").lower()
+        else:
+            tirit()
+            print("Nav atrasts produkts ar ID :" + id)
+            time.sleep(0.5)
+            rediget()
 
         if atb == "y":
             opc = input("Pievienot vai noņemt? :" + " ").lower()
             if opc == "pievienot":
-                piev = int(input("Cik daudz vēlaties pievienot/noņemt?:" + " "))
-                if piev.isdigit() == False:
+                piev = input("Cik daudz vēlaties pievienot?:" + " ")
+                while piev.isdigit() == False:
+                    tirit()
                     print("Nederīga vērtība, lūdzu ievadiet skaitu")
-                    rediget()
+                    time.sleep(0.5)
+                    piev = input("Cik daudz vēlaties pievienot/noņemt?:" + " ")
                 else:
                     skaits = skaits+piev
                     print("Produkta" + nosk + "jaunais daudzums ir" + skaits)
                     ex.save("Dati.xlsx")
             if opc == "nonemt":
-                skaits = skaits - piev
-                ex.save("Dati.xlsx")
+                piev = input("Cik daudz vēlaties noņemt?:" + " ")
+                while piev.isdigit() == False:
+                    tirit()
+                    print("Nederīga vērtība, lūdzu ievadiet skaitu")
+                    time.sleep(0.5)
+                    piev = input("Cik daudz vēlaties pievienot/noņemt?:" + " ")
+                else:
+                    skaits = skaits - piev
+                    time.sleep(0.5)
+                    print("Produkta" + nosk + "jaunais daudzums ir" + skaits)
+                    ex.save("Dati.xlsx")
 
-            else :
+            else:
                 print("Nederīga vērtība")
                 sakEkrn()
 
         if atb == "n":
-            print("Novirzu atpakaļ uz sākuma ekrānu")
+            print("Novirzu atpakaļ uz sākuma ekrānu...")
+            time.sleep(0.5)
             sakEkrn()
 
+def skaits():
+
+    tirit()
+    id = input("Ievadiet ID produktam, kura skaitu vēlaties apskatīt :" + " ")
+
+    while id.isdigit() == False:
+        tirit()
+        print("Nederīga vērtība, lūdzu ievadiet derīgu ID")
+        time.sleep(0.5)
+        skaits()
+
+    else:
+
+        pass
+        i = 0
+        for row in lapa:
+            i = i + 1
+            if ac.cell(row=i, column=1) == int(id):
+                nosk = ac.cell(row=i, column=2).value
+                skaits = ac.cell(row=i, column=3).value
+                print("Produkta" + nosk + "daudzums ir" + skaits)
+            else:
+                tirit()
+                print("Ievadītais ID :" + id + "nav atpzīts, lūdzu mēģiniet vēlreiz")
+                time.sleep(0.5)
+                skaits()
 
 
 
 
+    velv = input("Vai vēlaties apskatīt vēl kāda cita produkta skaitu? Y vai N" + " ")
+    if velv == "y":
+        tirit()
+        skaits()
+    elif velv == "n":
+        print("Novadu uz sākuma ekrānu...")
+        time.sleep(0.5)
+        sakEkrn()
+    else:
+        print("Nesapratu atbildi, novirzu uz sākuma ekrānu...")
+        time.sleep(0.5)
+        sakEkrn()
 
 
+
+
+# varetu but ka 132 - 143 neizpildas
 
 
 
@@ -107,3 +167,4 @@ def tirit():
         
         
         """)
+
