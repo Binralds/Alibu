@@ -2,9 +2,8 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 import time
 
-ex = load_workbook("Dati.xlsx")
-ac = ex.active
-lapa = ac["Sheet"]
+ex = load_workbook("Data.xlsx")
+ac = ex["Sheet"]
 def sakEkrn():
     print("""Izvēlieties opciju : \n
     Produkti ll Skaits ll Rediģēt ll Palīdzība ll Iziet
@@ -24,7 +23,7 @@ def sakEkrn():
         tirit()
         #palidziba()
     elif Izvele == "iziet":
-        iz = input("Vai tiešām vēlaties iziet no programmas? y vai n :" + " ").lower()
+        iz = input("Vai tiešām vēlaties iziet no programmas? Y vai N :" + " ").lower()
         if iz == "y":
             print("Visu labu!")
             tirit()
@@ -53,9 +52,9 @@ def rediget():
     i = 0
     for row in lapa:
         i = i+1
-        if ac.cell(row=i,column=1) == int(id):
-            nosk = ac.cell(row=i, column=2).value
-            skaits = ac.cell(row=i, column=3).value
+        if ex.active.cell(row=i,column=1).value == int(id):
+            nosk = str(ex.active.cell(row=i, column=2).value)
+            skaits = str(ex.active.cell(row=i, column=3).value)
             print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
             atb = input("Turpināt? : Y vai N").lower()
         else:
@@ -116,13 +115,13 @@ def skaits():
         i = 0
         for row in lapa:
             i = i + 1
-            if ac.cell(row=i, column=1) == int(id):
-                nosk = ac.cell(row=i, column=2).value
-                skaits = ac.cell(row=i, column=3).value
+            if ex.active.cell(row=i, column=1).value == int(id):
+                nosk = str(ex.active.cell(row=i, column=2).value)
+                skaits = str(ex.active.cell(row=i, column=3).value)
                 print("Produkta" + nosk + "daudzums ir" + skaits)
             else:
                 tirit()
-                print("Ievadītais ID :" + id + "nav atpzīts, lūdzu mēģiniet vēlreiz")
+                print("Ievadītais ID :" + str(id) + "nav atpzīts, lūdzu mēģiniet vēlreiz")
                 time.sleep(0.5)
                 skaits()
 
