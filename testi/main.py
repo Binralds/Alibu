@@ -36,7 +36,7 @@ def atrast():
     print(time.time())
 
 
-#vidējais funkcijas izpildes laiks ir 0.007 sekundes
+#vidējais funkcijas izpildes laiks ir 0.007 sekundes, pēc šiem datiem uzskatu, ka programma ir efektīva
 
 
 
