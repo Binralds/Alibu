@@ -55,7 +55,7 @@ def rediget():
         if ex.active.cell(row=i,column=1).value == int(id):
             nosk = str(ex.active.cell(row=i, column=2).value)
             skaits = str(ex.active.cell(row=i, column=3).value)
-            print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
+            print("Tiks rediģets produkts" + " " + nosk + " " + ", kura skaits ir" + " " + skaits)
             atb = input("Turpināt? : Y vai N").lower()
         else:
             tirit()
@@ -74,7 +74,7 @@ def rediget():
                     piev = input("Cik daudz vēlaties pievienot/noņemt?:" + " ")
                 else:
                     skaits = skaits+piev
-                    print("Produkta" + nosk + "jaunais daudzums ir" + skaits)
+                    print("Produkta" + " " + nosk + " " + "jaunais daudzums ir" + " " + skaits)
                     ex.save("Dati.xlsx")
             if opc == "nonemt":
                 piev = input("Cik daudz vēlaties noņemt?:" + " ")
@@ -86,7 +86,7 @@ def rediget():
                 else:
                     skaits = skaits - piev
                     time.sleep(0.5)
-                    print("Produkta" + nosk + "jaunais daudzums ir" + skaits)
+                    print("Produkta" + " " + nosk + " " + "jaunais daudzums ir" + " " + skaits)
                     ex.save("Dati.xlsx")
 
             else:
@@ -118,10 +118,10 @@ def skaits():
             if ex.active.cell(row=i, column=1).value == int(id):
                 nosk = str(ex.active.cell(row=i, column=2).value)
                 skaits = str(ex.active.cell(row=i, column=3).value)
-                print("Produkta" + nosk + "daudzums ir" + skaits)
+                print("Produkta" + " " + nosk + " " + "daudzums ir" + " " + skaits)
             else:
                 tirit()
-                print("Ievadītais ID :" + str(id) + "nav atpzīts, lūdzu mēģiniet vēlreiz")
+                print("Ievadītais ID :" + " " + str(id) + " " + "nav atpzīts, lūdzu mēģiniet vēlreiz")
                 time.sleep(0.5)
                 skaits()
 
