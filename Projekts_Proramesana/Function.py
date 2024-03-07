@@ -166,7 +166,7 @@ def skatit():
 
 
 
-# varetu but ka 132 - 143 neizpildas
+# varetu but ka 132 - 143 neizpildass
 
 
 
