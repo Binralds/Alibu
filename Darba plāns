@@ -1,0 +1,6 @@
+07.03.24     Izstrādāju detalizētu darba plānu, izskatu šobrīdējo kodu un veicu labojumus, ja tie ir nepieciešami.
+
+21.03.24    Izveidojšu funkciju "Produkti" , tā sadalīsies funkcijās "Pievienot produktu" , "Dzēst produktu" , "Atrast produktu". Funkcija "Pievienot produktu" ļaus lietotājam papildināt excel failu ar jaunu produktu, "Dzēst produktu" attiecīgi dzēst kaādu produktu no faila pilnībā, 
+taču "Atrast produktu" ļaus lietotājam atrast produkta ID un skaitu pēc tā nosaukuma, ja nu gadijumā ID ir aizmirsts.
+
+28.03.24    Pabeigšu iepriekšminēto funkciju izstrādi, pilnveidošu visu kodu, apskatīšu visu funkciju darbību un savstarpējo mijiedarbību, kā arī kā izpildās visi "If" , "Else" un "While" statementi. Iespējams pievienošu izskatu uzlabojošas komandas.
