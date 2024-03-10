@@ -4,7 +4,9 @@ import time
 import timeit
 
 ex = load_workbook("Dati.xlsx")
-ac = ex["Sheet"]
+sht = ex["Sheet"]
+active = ex.active
+
 
 def sakEkrn():
     print("""Izvēlieties opciju : \n
@@ -52,11 +54,11 @@ def rediget():
 
         pass
     i = 0
-    for row in ac:
+    for row in sht:
         i = i+1
-        if ex.active.cell(row=i, column=1) == int(id):
-            nosk = ex.active.cell(row=i, column=2).value
-            skaits = ex.active.cell(row=i, column=3).value
+        if active.cell(row=i, column=1) == int(id):
+            nosk = active.cell(row=i, column=2).value
+            skaits = active.cell(row=i, column=3).value
             print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
             atb = input("Turpināt? : Y vai N").lower()
         else:
@@ -73,10 +75,10 @@ def rediget():
                     tirit()
                     print("Nederīga vērtība, lūdzu ievadiet skaitu")
                     time.sleep(0.5)
-                    piev = input("Cik daudz vēlaties pievienot/noņemt?:" + " ")
+                    piev = int(input("Cik daudz vēlaties pievienot/noņemt?:" + " "))
 
                 else:
-                    skaits = skaits+piev
+                    skaits = int(skaits)+piev
                     print("Produkta" + nosk + "jaunais daudzums ir" + skaits)
                     ex.save("Dati.xlsx")
                     sakEkrn()
@@ -127,12 +129,12 @@ def skaits():
 
         pass
         i = 0
-        for row in ac:
+        for row in sht:
             i = i + 1
-            if ex.active.cell(row=i, column=1) == int(id):
-                nosk = ex.active.cell(row=i, column=2).value
-                skaits = ex.active.cell(row=i, column=3).value
-                print("Produkta" + nosk + "daudzums ir" + skaits)
+            if active.cell(row=i, column=1) == int(id):
+                nosk = active.cell(row=i, column=2).value
+                daudz = active.cell(row=i, column=3).value
+                print("Produkta" + nosk + "daudzums ir" + daudz)
                 break
         else:
             tirit()
@@ -149,6 +151,59 @@ def skaits():
         print("Nesapratu, novirzu uz sākuma ekrānu...")
         time.sleep(0.5)
         sakEkrn()
+
+def produkti():
+    print("""Izvēlieties darbību 
+        Pievienot ll Dzēst ll Atrast
+    """)
+    izv = input("Jūsu izvēle:" + " ").lower
+    if izv == "pievienot":
+        tirit()
+        prod_piev()
+    elif izv == "dzēst" or "dzest":
+        tirit()
+        prod_dzest()
+    elif izv == "atrast":
+        tirit()
+        prod_atr()
+    else:
+        print("Nesapratu, lūdzu mēģiniet vēlreiz...")
+        produkti()
+
+def prod_piev():
+    newID = input("Lūdzu ievadiet jaunā produkta ID:" + " ")
+    nosk = input("Lūdzu ievadiet jaunā produkta NOSAUKUMU:" + " ")
+    daudz = input("Lūdzu ievadiet jaunā produkta SKAITU" + " ")
+    print("Produktu ar ID : "+str(newID)+" ,Nosaukums: "+str(nosk)+" un daudzums: "+str(daudz)+" pievienošu izklājlapai")
+    atb = input("Turpināt? Y vai N :" + " ").lower()
+    if atb == "n":
+        print("Dzēšu datus...")
+        time.sleep(0.3)
+        print("Novirzu atpakaļ uz sākuma ekrānu")
+        time.sleep(0.3)
+        sakEkrn()
+    elif atb == "y":
+        i = 0
+        for row in sht:
+            i = i+1
+            if cell.value is None:
+                active.cell(row=i, column=1).value = int(newID)
+                active.cell(row=i, column=2).value = nosk
+                active.cell(row=i, column=3).value = daudz
+                ex.save("Dati.xslx")
+                break
+            print("Izmaiņas saglabātas rindā " + i)
+            time.sleep(0.5)
+            sakEkrn()
+        else:
+            active.append([newID, nosk, daudz])
+            ex.save("Dati,xslx")
+    else:
+        print("Neizprotu atbildi, nosūtu uz sākuma ekrānu...")
+        time.sleep(0.5)
+        sakEkrn()
+
+
 def skatit():
     velv = input("Vai vēlaties apskatīt vēl kāda cita produkta skaitu? Y vai N" + " ")
     if velv == "y":
@@ -166,7 +221,7 @@ def skatit():
 
 
 
-# varetu but ka 132 - 143 neizpildass
+
 
 
 
@@ -190,3 +245,4 @@ def tirit():
         
         """)
 
+#rahhh
