@@ -187,7 +187,7 @@ def prod_piev():
             sakEkrn()
         else:
             active.append([newID, nosk, daudz])
-            ex.save("Dati,xslx")
+            ex.save("Dati.xslx")
     else:
         print("Neizprotu atbildi, nosūtu uz sākuma ekrānu...")
         time.sleep(0.5)
