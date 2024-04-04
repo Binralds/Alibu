@@ -1,11 +1,12 @@
 
 from openpyxl import load_workbook
 import time
+from openpyxl import Workbook
 
 
 ex = load_workbook("Dati.xlsx")
 sht = ex["Sheet"]
-active = ex.active
+
 
 
 def sakEkrn():
@@ -32,7 +33,8 @@ def sakEkrn():
 
 
 def rediget():
-    tirit()
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
     id = input("Ievadiet produkta ID :" + " ")
 
     if not id.isdigit():
@@ -46,13 +48,12 @@ def rediget():
     i = 0
     for row in sht:
         i = i + 1
-        if active.cell(row=i, column=1).value == int(id):
-            nosk = active.cell(row=i, column=2).value
-            skaits = active.cell(row=i, column=3).value
+        if ex.active.cell(row=i, column=1).value == int(id):
+            nosk = ex.active.cell(row=i, column=2).value
+            skaits = ex.active.cell(row=i, column=3).value
             print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
             atb = input("Turpināt? : Y vai N").lower()
     else:
-        tirit()
         print("Nav atrasts produkts ar ID : " + id)
         time.sleep(1.0)
         sakEkrn()
@@ -104,13 +105,16 @@ def rediget():
 
 
 def skaits():
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
+
     tirit()
     id = input("Ievadiet ID produktam, kura skaitu vēlaties apskatīt :" + " ")
 
     if not id.isdigit():
         print("Nederīga vērtība, lūdzu ievadiet derīgu ID")
         time.sleep(0.5)
-        sakEkrn()
+        skaits()
 
 
     else:
@@ -119,9 +123,9 @@ def skaits():
         i = 0
         for row in sht:
             i = i + 1
-            if active.cell(row=i, column=1).value == int(id):
-                nosk = active.cell(row=i, column=2).value
-                daudz = active.cell(row=i, column=3).value
+            if ex.active.cell(row=i, column=1).value == int(id):
+                nosk = sht.cell(row=i, column=2).value
+                daudz = sht.cell(row=i, column=3).value
                 print("Produkta" + nosk + "daudzums ir" + daudz)
                 break
         else:
@@ -142,6 +146,9 @@ def skaits():
 
 
 def produkti():
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
+
     print("""Izvēlieties darbību 
         Pievienot || Dzēst || Atrast
     """)
@@ -159,6 +166,10 @@ def produkti():
 
 
 def prod_piev():
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
+    max = sht.max_row + 1
+
     newID = input("Lūdzu ievadiet jaunā produkta ID:" + " ")
     nosk = input("Lūdzu ievadiet jaunā produkta NOSAUKUMU:" + " ")
     daudz = input("Lūdzu ievadiet jaunā produkta SKAITU:" + " ")
@@ -173,21 +184,22 @@ def prod_piev():
         time.sleep(0.3)
         sakEkrn()
     elif atb == "y":
-        i = 0
-        for row in sht:
-            i = i + 1
-            if sht.cell is None:
-                active.cell(row=i, column=1).value = int(newID)
-                active.cell(row=i, column=2).value = nosk
-                active.cell(row=i, column=3).value = daudz
-                ex.save("Dati.xslx")
-                break
-            print("Izmaiņas saglabātas rindā " + str(i))
-            time.sleep(1)
+        sht.cell(row=max, column=1).value = newID
+        sht.cell(row=max, column=2).value = nosk
+        sht.cell(row=max, column=3).value = int(daudz)
+        ex.save("Dati.xlsx")
+        print("Izmaiņas saglabātas rindā " + str(max))
+        time.sleep(0.5)
+        izv = input("Vai vēlaties pievienot vēlvienu produktu? Y vai N " + "").lower()
+        if izv == "y":
+            prod_piev()
+        elif izv == "n":
+            print("Novirzu uz sākuma ekrānu...")
             sakEkrn()
         else:
-            active.append([newID, nosk, daudz])
-            ex.save("Dati,xslx")
+            print("Nesapratu atbildi, novirzu uz sākuma ekrānu...")
+            time.sleep(1.0)
+            sakEkrn()
     else:
         print("Neizprotu atbildi, nosūtu uz sākuma ekrānu...")
         time.sleep(0.5)
@@ -195,6 +207,8 @@ def prod_piev():
 
 
 def prod_atr():
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
 
     aizm = input("Ievadiet nosaukumu produktam, kura ID/Skaitu vēlaties noskaidrot:" + " ")
 
@@ -206,6 +220,18 @@ def prod_atr():
             id = str(ex.active.cell(row=i, column=1).value)
             skaits = str(ex.active.cell(row=i, column=3).value)
             print("Produkta" + " " + aizm + " " + "ID ir" + " " + id + " " + "un skaits ir" + " " + skaits)
+            time.sleep(0.5)
+            izv = input("Vai vēlaties atrast vēlvienu produktu? Y vai N: " + "").lower()
+            if izv == "y":
+                prod_piev()
+            elif izv == "n":
+                print("Novirzu uz sākuma ekrānu...")
+                sakEkrn()
+            else:
+                print("Nesapratu atbildi, novirzu uz sākuma ekrānu...")
+                time.sleep(1.0)
+                sakEkrn()
+
     else:
         print("Nevarēju atrast produktu ar norādīto nosaukumu, lūdzu mēģiniet vēlreiz...")
         time.sleep(0.5)
@@ -215,6 +241,9 @@ def prod_atr():
 
 
 def skatit():
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
+
     velv = input("Vai vēlaties apskatīt vēl kāda cita produkta skaitu? Y vai N" + " ")
     if velv == "y":
         tirit()
@@ -229,13 +258,16 @@ def skatit():
         sakEkrn()
 
 def prod_dzest():
-    id = int(input("Ievadiet tā produkta ID, kuru vēlaties dzēst:" + " "))
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
+
+    id = input("Ievadiet tā produkta ID, kuru vēlaties dzēst:" + " ")
     i = 0
     for row in sht:
         i = i+1
-        if active.cell.value(row=i, column=1) == id:
+        if ex.active.cell(row=i, column=1).value == int(id):
             sht.delete_rows(i)
-            print("Veiksmīgi izdzēsu rindu" + str(i))
+            print("Veiksmīgi izdzēsu rindu " + str(i))
             ex.save("Dati.xslx")
     else:
         print("Neatradu produktu ar doto ID: " + str(id) + " ,lūdzu mēģiniet vēlreiz")
