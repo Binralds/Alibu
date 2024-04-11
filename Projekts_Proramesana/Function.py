@@ -11,7 +11,7 @@ sht = ex["Sheet"]
 
 def sakEkrn():
     print("""Izvēlieties opciju : \n
-    Produkti ll Skaits ll Rediģēt ll Palīdzība
+    Produkti || Skaits || Rediģēt || Palīdzība
     """)
     Izvele = input("Izvēle : " + "").lower()
 
@@ -48,51 +48,53 @@ def rediget():
     i = 0
     for row in sht:
         i = i + 1
-        if ex.active.cell(row=i, column=1).value == int(id):
+        if str(ex.active.cell(row=i, column=1).value) == str(id):
             nosk = ex.active.cell(row=i, column=2).value
             skaits = ex.active.cell(row=i, column=3).value
-            print("Tiks rediģets produkts" + nosk + ", kura skaits ir" + skaits)
-            atb = input("Turpināt? : Y vai N").lower()
+            print("Tiks rediģets produkts " + str(nosk) + ", kura skaits ir " + str(skaits))
+            atb = input("Turpināt? Y vai N : ").lower()
+
+
+
+            if atb == "y":
+                opc = input("Pievienot vai noņemt? :" + " ").lower()
+                if opc == "pievienot":
+                    piev = input("Cik daudz vēlaties pievienot?:" + " ")
+                    if not piev.isdigit():
+                        print("Nederīga vērtība, lūdzu ievadiet skaitu")
+                        time.sleep(0.5)
+                        rediget()
+
+                    else:
+                        ex.active.cell(row=i, column=3).value = int(ex.active.cell(row=i, column=3).value) + int(piev)
+                        print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(skaits))
+                        ex.save("Dati.xlsx")
+                        sakEkrn()
+                if opc == "nonemt" or "noņemt":
+                    noNemt = input("Cik daudz vēlaties noņemt?:" + " ")
+                    if not noNemt.isdigit():
+                        print("Nederīga vērtība, lūdzu ievadiet skaitu")
+                        time.sleep(0.5)
+                        rediget()
+                    else:
+                        ex.active.cell(row=i, column=3).value = int(ex.active.cell(row=i, column=3).value) - int(noNemt)
+                        time.sleep(0.5)
+                        print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(ex.active.cell(row=i, column=3).value))
+                        ex.save("Dati.xlsx")
+                        sakEkrn()
+
+                else:
+                    print("Nederīga vērtība")
+                    sakEkrn()
+
+            if atb == "n":
+                print("Novirzu atpakaļ uz sākuma ekrānu...")
+                time.sleep(0.5)
+                sakEkrn()
     else:
         print("Nav atrasts produkts ar ID : " + id)
         time.sleep(1.0)
         sakEkrn()
-
-        if atb == "y":
-            opc = input("Pievienot vai noņemt? :" + " ").lower()
-            if opc == "pievienot":
-                piev = input("Cik daudz vēlaties pievienot?:" + " ")
-                if not piev.isdigit():
-                    print("Nederīga vērtība, lūdzu ievadiet skaitu")
-                    time.sleep(0.5)
-                    rediget()
-
-                else:
-                    skaits = int(skaits) + int(piev)
-                    print("Produkta" + str(nosk) + " jaunais daudzums ir" + str(skaits))
-                    ex.save("Dati.xlsx")
-                    sakEkrn()
-            if opc == "nonemt":
-                piev = input("Cik daudz vēlaties noņemt?:" + " ")
-                if not piev.isdigit():
-                    print("Nederīga vērtība, lūdzu ievadiet skaitu")
-                    time.sleep(0.5)
-                    rediget()
-                else:
-                    skaits = int(skaits) - int(piev)
-                    time.sleep(0.5)
-                    print("Produkta" + str(nosk) + "jaunais daudzums ir" + str(skaits))
-                    ex.save("Dati.xlsx")
-                    sakEkrn()
-
-            else:
-                print("Nederīga vērtība")
-                sakEkrn()
-
-        if atb == "n":
-            print("Novirzu atpakaļ uz sākuma ekrānu...")
-            time.sleep(0.5)
-            sakEkrn()
     atb = input("Rediģēt citus produktus? Y vai N :" + " ").lower()
     if atb == "y":
         rediget()
@@ -113,8 +115,8 @@ def skaits():
 
     if not id.isdigit():
         print("Nederīga vērtība, lūdzu ievadiet derīgu ID")
-        time.sleep(0.5)
-        skaits()
+        time.sleep(1.0)
+        sakEkrn()
 
 
     else:
@@ -123,10 +125,10 @@ def skaits():
         i = 0
         for row in sht:
             i = i + 1
-            if ex.active.cell(row=i, column=1).value == int(id):
+            if str(ex.active.cell(row=i, column=1).value) == str(id):
                 nosk = sht.cell(row=i, column=2).value
                 daudz = sht.cell(row=i, column=3).value
-                print("Produkta" + nosk + "daudzums ir" + daudz)
+                print("Produkta " + str(nosk) + " daudzums ir " + str(daudz))
                 break
         else:
             tirit()
@@ -265,10 +267,35 @@ def prod_dzest():
     i = 0
     for row in sht:
         i = i+1
-        if ex.active.cell(row=i, column=1).value == int(id):
-            sht.delete_rows(i)
-            print("Veiksmīgi izdzēsu rindu " + str(i))
-            ex.save("Dati.xslx")
+        if str(ex.active.cell(row=i, column=1).value) == str(id):
+            nosk = ex.active.cell(row=i, column=2).value
+            daudzums = ex.active.cell(row=i, column=3).value
+            print("Tiks dzēsts produkts " + str(nosk) + " ar daudzumu " + str(daudzums))
+            atbilde = input("Vai tiešām vēlaties dzēst šo produktu? Datus atgūt nebūs iespējams. Y vai N: ").lower()
+            if atbilde == "y":
+                sht.delete_rows(i)
+                print("Veiksmīgi izdzēsu rindu " + str(i))
+                ex.save("Dati.xlsx")
+                atbildeNext = input("Vai vēlaties dzēst vēl kādus datus? Y vai N: ").lower()
+                if atbildeNext == "y":
+                    prod_dzest()
+                elif atbildeNext == "n":
+                    print("Novirzu atpakaļ uz sākuma ekrānu...")
+                    time.sleep(1.5)
+                    sakEkrn()
+                else:
+                    print("Nesaprotu atbildi, novirzu uz sākuma ekrānu...")
+                    time.sleep(1.5)
+                    sakEkrn()
+            elif atbilde == "n":
+                print("Novadu uz sākuma ekrānu...")
+                time.sleep(1.5)
+                sakEkrn()
+            else:
+                print("Nesaprotu atbildi, novirzu uz sākuma ekrānu...")
+                time.sleep(1.5)
+                sakEkrn()
+
     else:
         print("Neatradu produktu ar doto ID: " + str(id) + " ,lūdzu mēģiniet vēlreiz")
         time.sleep(0.5)
