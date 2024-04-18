@@ -1,7 +1,7 @@
 
 from openpyxl import load_workbook
 import time
-from openpyxl import Workbook
+
 
 
 ex = load_workbook("Dati.xlsx")
@@ -67,7 +67,7 @@ def rediget():
 
                     else:
                         ex.active.cell(row=i, column=3).value = int(ex.active.cell(row=i, column=3).value) + int(piev)
-                        print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(skaits))
+                        print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(ex.active.cell(row=i, column=3).value))
                         ex.save("Dati.xlsx")
                         sakEkrn()
                 if opc == "nonemt" or "noņemt":
@@ -87,9 +87,14 @@ def rediget():
                     print("Nederīga vērtība")
                     sakEkrn()
 
-            if atb == "n":
+            elif atb == "n":
                 print("Novirzu atpakaļ uz sākuma ekrānu...")
                 time.sleep(0.5)
+                sakEkrn()
+
+            else:
+                print("Nesapratu, novirzu atpakaļ uz sākuma ekrānu...")
+                time.sleep(1.0)
                 sakEkrn()
     else:
         print("Nav atrasts produkts ar ID : " + id)
@@ -168,13 +173,22 @@ def produkti():
 
 
 def prod_piev():
+    tirit()
     ex = load_workbook("Dati.xlsx")
     sht = ex["Sheet"]
     max = sht.max_row + 1
 
     newID = input("Lūdzu ievadiet jaunā produkta ID:" + " ")
+    if not newID.isdigit():
+        print("Nederīga vērtība, lūdzu ievadiet vērtību, kas atbilst ID")
+        time.sleep(0.5)
+        sakEkrn()
     nosk = input("Lūdzu ievadiet jaunā produkta NOSAUKUMU:" + " ")
     daudz = input("Lūdzu ievadiet jaunā produkta SKAITU:" + " ")
+    if not daudz.isdigit():
+        print("Nederīga vērtība, lūdzu ievadiet SKAITU")
+        time.sleep(0.5)
+        sakEkrn()
     print("Produktu ar ID : " + str(newID) + " ,nosaukumu: " + str(nosk) + " un daudzumu: " + str(
         daudz) + " pievienošu izklājlapai")
     time.sleep(0.5)
@@ -209,6 +223,7 @@ def prod_piev():
 
 
 def prod_atr():
+    tirit()
     ex = load_workbook("Dati.xlsx")
     sht = ex["Sheet"]
 
@@ -260,6 +275,7 @@ def skatit():
         sakEkrn()
 
 def prod_dzest():
+    tirit()
     ex = load_workbook("Dati.xlsx")
     sht = ex["Sheet"]
 
@@ -328,3 +344,4 @@ def tirit():
         """)
 
 # rahhhh
+
