@@ -13,23 +13,33 @@ def sakEkrn():
     print("""Izvēlieties opciju : \n
     Produkti || Skaits || Rediģēt || Palīdzība
     """)
-    Izvele = input("Izvēle : " + "").lower()
+    Izvele = str(input("Izvēle : " + "").lower())
 
-    if Izvele == "produkti":
-        tirit()
-        produkti()
-    elif Izvele == "skaits":
-        tirit()
-        skaits()
-    elif Izvele == "rediget" or "rediģēt":
-        tirit()
-        rediget()
-    elif Izvele == "palīdzība" or "palidziba":
-        tirit()
-        # palidziba()
-    else:
-        print("Nederīga opcija, lūdzu mēģiniet vēlreiz...")
-        sakEkrn()
+    match str(Izvele):
+
+        case "produkti":
+            tirit()
+            produkti()
+        case "skaits":
+            tirit()
+            skaits()
+        case "rediget" :
+            tirit()
+            rediget()
+        case "rediģēt":
+            tirit()
+            rediget()
+        case "palīdzība":
+            tirit()
+            #palidziba()
+
+        case "palidziba":
+            tirit()
+            # palidziba()
+        case _:
+            print("Nederīga opcija, lūdzu mēģiniet vēlreiz...")
+            time.sleep(1.0)
+            sakEkrn()
 
 
 def rediget():
@@ -157,16 +167,21 @@ def produkti():
     sht = ex["Sheet"]
 
     print("""Izvēlieties darbību 
-        Pievienot || Dzēst || Atrast
+        Pievienot || Dzēst || Atrast || Atpakaļ
     """)
-    izv = input("Jūsu izvēle:" + " ").lower()
-
+    izv = str(input("Jūsu izvēle:" + " ").lower())
+    print(izv)
     if izv == "pievienot":
         prod_piev()
-    elif izv == "dzēst" or izv == "dzest":
+    elif izv == "dzēst":
+        prod_dzest()
+    elif izv == "dzest":
         prod_dzest()
     elif izv == "atrast":
         prod_atr()
+    elif izv == "atpakal" or "atpakaļ":
+        tirit()
+        sakEkrn()
     else:
         print("Nesapratu, lūdzu mēģiniet vēlreiz...")
         produkti()
@@ -178,17 +193,30 @@ def prod_piev():
     sht = ex["Sheet"]
     max = sht.max_row + 1
 
+
+
     newID = input("Lūdzu ievadiet jaunā produkta ID:" + " ")
     if not newID.isdigit():
         print("Nederīga vērtība, lūdzu ievadiet vērtību, kas atbilst ID")
         time.sleep(0.5)
-        sakEkrn()
+        produkti()
     nosk = input("Lūdzu ievadiet jaunā produkta NOSAUKUMU:" + " ")
     daudz = input("Lūdzu ievadiet jaunā produkta SKAITU:" + " ")
     if not daudz.isdigit():
         print("Nederīga vērtība, lūdzu ievadiet SKAITU")
         time.sleep(0.5)
-        sakEkrn()
+        produkti()
+    i = 1
+    for row in range(sht.max_row-1):
+        i = i + 1
+        dupe = int(ex.active.cell(row=i, column=1).value)
+        if str(dupe) == str(newID):
+            print("Tads ID jau pastāv, duplicēšana radīs problēmas.")
+            sakEkrn()
+        else:
+            pass
+
+
     print("Produktu ar ID : " + str(newID) + " ,nosaukumu: " + str(nosk) + " un daudzumu: " + str(
         daudz) + " pievienošu izklājlapai")
     time.sleep(0.5)

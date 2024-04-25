@@ -9,6 +9,8 @@ import os
 if os.path.exists("Dati.xlsx"):
     ex = load_workbook("Dati.xlsx")
     print("Atveru datni")
+
+#Nestrada jauna faila izveide
 else:
     wb = Workbook()
     Top = [["ID", "NOSK.", "SKAITS"]]
