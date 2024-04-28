@@ -6,18 +6,19 @@ import os
 
 
 
-if os.path.exists("Dati.xlsx"):
-    ex = load_workbook("Dati.xlsx")
-    print("Atveru datni")
 
-#Nestrada jauna faila izveide
+if os.path.exists("Dati.xlsx"):
+    wb = load_workbook("Dati.xlsx")
+    print("Atveru datni...")
 else:
-    wb = Workbook()
+    ex = Workbook()
+    ac = ex.active
     Top = [["ID", "NOSK.", "SKAITS"]]
     for row in Top:
-        wb.active.append(row)
-    print("Izveidoju datni")
-    wb.save("Dati.xlsx")
+        ac.append(row)
+    print("Izveidoju jaunu datni...")
+    ex.save("Dati.xlsx")
+
 
 
 sakEkrn()
