@@ -4,14 +4,17 @@ import time
 
 
 
-ex = load_workbook("Dati.xlsx")
-sht = ex["Sheet"]
+
 
 
 
 def sakEkrn():
+    global ex
+    global sht
+    ex = load_workbook("Dati.xlsx")
+    sht = ex["Sheet"]
     print("""Izvēlieties opciju : \n
-    Produkti || Skaits || Rediģēt || Palīdzība
+    Produkti || Skaits || Rediģēt || Palīdzība || Iziet
     """)
     Izvele = str(input("Izvēle : " + "").lower())
 
@@ -23,7 +26,7 @@ def sakEkrn():
         case "skaits":
             tirit()
             skaits()
-        case "rediget" :
+        case "rediget":
             tirit()
             rediget()
         case "rediģēt":
@@ -32,10 +35,23 @@ def sakEkrn():
         case "palīdzība":
             tirit()
             #palidziba()
-
         case "palidziba":
             tirit()
-            # palidziba()
+            #palidziba()
+        case "iziet":
+            iziet = str(input("Vai tiešām vēlaties iziet? Y vai N: " + " ")).lower()
+            if iziet == "y":
+                print("Pārtraucu darbību, visu labu!...")
+                time.sleep(1.0)
+                exit()
+            elif iziet == "n":
+                print("Atgriežu Jūs uz sākuma ekrānu...")
+                time.sleep(1.5)
+                sakEkrn()
+            else:
+                print("Nesaprotu atbildi, atgriežu Jūs uz sākuma ekrānu")
+                time.sleep(1.5)
+                sakEkrn()
         case _:
             print("Nederīga opcija, lūdzu mēģiniet vēlreiz...")
             time.sleep(1.0)
@@ -43,8 +59,6 @@ def sakEkrn():
 
 
 def rediget():
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
     id = input("Ievadiet produkta ID :" + " ")
 
     if not id.isdigit():
@@ -73,25 +87,51 @@ def rediget():
                     if not piev.isdigit():
                         print("Nederīga vērtība, lūdzu ievadiet skaitu")
                         time.sleep(0.5)
-                        rediget()
+                        sakEkrn()
 
                     else:
                         ex.active.cell(row=i, column=3).value = int(ex.active.cell(row=i, column=3).value) + int(piev)
                         print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(ex.active.cell(row=i, column=3).value))
                         ex.save("Dati.xlsx")
-                        sakEkrn()
-                if opc == "nonemt" or "noņemt":
+                        velv = str(input("Vai vēlaties rediģēt vēlvienu produktu? Y vai N: " + " ")).lower()
+                        if velv == "y":
+                            tirit()
+                            time.sleep(1.0)
+                            rediget()
+                        elif velv == "n":
+                            print("Atgriežu Jūs uz sākuma ekrānu...")
+                            time.sleep(1.5)
+                            sakEkrn()
+                        else:
+                            print("Nesaprotu atbildi, atgriežu Jūs uz sākuma ekrānu")
+                            time.sleep(1.5)
+                            sakEkrn()
+                elif opc == "nonemt" or "noņemt":
                     noNemt = input("Cik daudz vēlaties noņemt?:" + " ")
                     if not noNemt.isdigit():
                         print("Nederīga vērtība, lūdzu ievadiet skaitu")
                         time.sleep(0.5)
-                        rediget()
+                        sakEkrn()
                     else:
                         ex.active.cell(row=i, column=3).value = int(ex.active.cell(row=i, column=3).value) - int(noNemt)
                         time.sleep(0.5)
                         print("Produkta " + str(nosk) + " jaunais daudzums ir " + str(ex.active.cell(row=i, column=3).value))
                         ex.save("Dati.xlsx")
-                        sakEkrn()
+                        time.sleep(1.0)
+                        velv = str(input("Vai vēlaties rediģēt vēlvienu produktu? Y vai N: " + " ")).lower()
+                        if velv == "y":
+                            tirit()
+                            time.sleep(1.0)
+                            rediget()
+                        elif velv == "n":
+                            print("Atgriežu Jūs uz sākuma ekrānu...")
+                            time.sleep(1.5)
+                            sakEkrn()
+                        else:
+                            print("Nesaprotu atbildi, atgriežu Jūs uz sākuma ekrānu")
+                            time.sleep(1.5)
+                            sakEkrn()
+
 
                 else:
                     print("Nederīga vērtība")
@@ -122,9 +162,6 @@ def rediget():
 
 
 def skaits():
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
-
     tirit()
     id = input("Ievadiet ID produktam, kura skaitu vēlaties apskatīt :" + " ")
 
@@ -147,7 +184,7 @@ def skaits():
                 break
         else:
             tirit()
-            print("Ievadītais ID :" + str(id) + " nav atpzīts, lūdzu mēģiniet vēlreiz")
+            print("Ievadītais ID : " + str(id) + " nav atpzīts, lūdzu mēģiniet vēlreiz")
             time.sleep(0.5)
             sakEkrn()
 
@@ -163,38 +200,33 @@ def skaits():
 
 
 def produkti():
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
 
     print("""Izvēlieties darbību 
         Pievienot || Dzēst || Atrast || Atpakaļ
     """)
     izv = str(input("Jūsu izvēle:" + " ").lower())
     print(izv)
-    if izv == "pievienot":
-        prod_piev()
-    elif izv == "dzēst":
-        prod_dzest()
-    elif izv == "dzest":
-        prod_dzest()
-    elif izv == "atrast":
-        prod_atr()
-    elif izv == "atpakal" or "atpakaļ":
-        tirit()
-        sakEkrn()
-    else:
-        print("Nesapratu, lūdzu mēģiniet vēlreiz...")
-        produkti()
+    match izv:
+        case "dzēst":
+            prod_dzest()
+        case "dzest":
+            prod_dzest()
+        case "atrast":
+            prod_atr()
+        case "atpakal":
+            tirit()
+            sakEkrn()
+        case "atpakaļ":
+            tirit()
+            sakEkrn()
+        case _:
+            print("Nesapratu, lūdzu mēģiniet vēlreiz...")
+            produkti()
 
 
 def prod_piev():
     tirit()
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
     max = sht.max_row + 1
-
-
-
     newID = input("Lūdzu ievadiet jaunā produkta ID:" + " ")
     if not newID.isdigit():
         print("Nederīga vērtība, lūdzu ievadiet vērtību, kas atbilst ID")
@@ -252,16 +284,12 @@ def prod_piev():
 
 def prod_atr():
     tirit()
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
 
-    aizm = input("Ievadiet nosaukumu produktam, kura ID/Skaitu vēlaties noskaidrot:" + " ")
-
-
+    aizm = str(input("Ievadiet nosaukumu produktam, kura ID/Skaitu vēlaties noskaidrot:" + " "))
     i = 0
     for row in sht:
         i = i+1
-        if ex.active.cell(row=i, column=2).value == aizm:
+        if str(ex.active.cell(row=i, column=2).value) == aizm:
             id = str(ex.active.cell(row=i, column=1).value)
             skaits = str(ex.active.cell(row=i, column=3).value)
             print("Produkta" + " " + aizm + " " + "ID ir" + " " + id + " " + "un skaits ir" + " " + skaits)
@@ -276,7 +304,6 @@ def prod_atr():
                 print("Nesapratu atbildi, novirzu uz sākuma ekrānu...")
                 time.sleep(1.0)
                 sakEkrn()
-
     else:
         print("Nevarēju atrast produktu ar norādīto nosaukumu, lūdzu mēģiniet vēlreiz...")
         time.sleep(0.5)
@@ -286,9 +313,6 @@ def prod_atr():
 
 
 def skatit():
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
-
     velv = input("Vai vēlaties apskatīt vēl kāda cita produkta skaitu? Y vai N" + " ")
     if velv == "y":
         tirit()
@@ -304,9 +328,6 @@ def skatit():
 
 def prod_dzest():
     tirit()
-    ex = load_workbook("Dati.xlsx")
-    sht = ex["Sheet"]
-
     id = input("Ievadiet tā produkta ID, kuru vēlaties dzēst:" + " ")
     i = 0
     for row in sht:
@@ -339,7 +360,6 @@ def prod_dzest():
                 print("Nesaprotu atbildi, novirzu uz sākuma ekrānu...")
                 time.sleep(1.5)
                 sakEkrn()
-
     else:
         print("Neatradu produktu ar doto ID: " + str(id) + " ,lūdzu mēģiniet vēlreiz")
         time.sleep(0.5)
@@ -372,4 +392,3 @@ def tirit():
         """)
 
 # rahhhh
-
