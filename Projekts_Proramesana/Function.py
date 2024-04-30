@@ -34,10 +34,10 @@ def sakEkrn():
             rediget()
         case "palīdzība":
             tirit()
-            #palidziba()
+            palidziba()
         case "palidziba":
             tirit()
-            #palidziba()
+            palidziba()
         case "iziet":
             iziet = str(input("Vai tiešām vēlaties iziet? Y vai N: " + " ")).lower()
             if iziet == "y":
@@ -109,7 +109,7 @@ def rediget():
                 elif opc == "nonemt" or "noņemt":
                     noNemt = input("Cik daudz vēlaties noņemt?:" + " ")
                     if not noNemt.isdigit():
-                        print("Nederīga vērtība, lūdzu ievadiet skaitu")
+                        print("Nederīga vērtība, lūdzu ievadiet SKAITU")
                         time.sleep(0.5)
                         sakEkrn()
                     else:
@@ -147,7 +147,7 @@ def rediget():
                 time.sleep(1.0)
                 sakEkrn()
     else:
-        print("Nav atrasts produkts ar ID : " + id)
+        print("Nav atrasts produkts ar ID: " + id)
         time.sleep(1.0)
         sakEkrn()
     atb = input("Rediģēt citus produktus? Y vai N :" + " ").lower()
@@ -207,6 +207,8 @@ def produkti():
     izv = str(input("Jūsu izvēle:" + " ").lower())
     print(izv)
     match izv:
+        case "pievienot":
+            prod_piev()
         case "dzēst":
             prod_dzest()
         case "dzest":
@@ -329,6 +331,10 @@ def skatit():
 def prod_dzest():
     tirit()
     id = input("Ievadiet tā produkta ID, kuru vēlaties dzēst:" + " ")
+    if not id.isdigit():
+        print("Nederīga vērtība, lūdzu ievadiet vērtību, kas atbilst ID")
+        time.sleep(0.5)
+        sakEkrn()
     i = 0
     for row in sht:
         i = i+1
@@ -375,6 +381,24 @@ def prod_dzest():
         else:
             print("Atbildi nesapratu, novirzu uz sākuma ekrānu...")
             time.sleep(0.5)
+            sakEkrn()
+
+
+def palidziba():
+    print("""
+    Ja Jums ir radušās problēmas ar kādas funkcijas izpildi, lūdzu apskatiet GITHUB izveidoto README failu ar nosaukumu "Palīdzība"
+    
+    Šajā failā esmu iekļāvis instrukciju, kā izmantot katru no sākumā redzamajām funkcijām,
+    
+    Kā arī kļūdu ziņojumu aprakstu. 
+    """)
+
+    atpakal = input("Kad esiet gatavi, ievadiet šeit jebko lai atgrieztos sākuma ekrānā: ")
+
+    match atpakal:
+        case _:
+            print("Atgriežu Jūs uz sākuma ekrānu...")
+            time.sleep(1.5)
             sakEkrn()
 
 def tirit():
