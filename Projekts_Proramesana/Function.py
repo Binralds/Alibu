@@ -183,7 +183,6 @@ def skaits():
                 print("Produkta " + str(nosk) + " daudzums ir " + str(daudz))
                 break
         else:
-            tirit()
             print("Ievadītais ID : " + str(id) + " nav atpzīts, lūdzu mēģiniet vēlreiz")
             time.sleep(0.5)
             sakEkrn()
@@ -205,7 +204,6 @@ def produkti():
         Pievienot || Dzēst || Atrast || Atpakaļ
     """)
     izv = str(input("Jūsu izvēle:" + " ").lower())
-    print(izv)
     match izv:
         case "pievienot":
             prod_piev()
