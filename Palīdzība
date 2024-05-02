@@ -1,0 +1,8 @@
+Pirmkārt, lai vispār varētu palaist programmu, Jums python terminālī jaievada sekojošā rindiņa :
+pip install openpyxl
+
+Šis instalēs biblioteku, kura nepieciešama koda izpildei. 
+
+Pieejamās funkcijas : 
+
+Produkti || Skaits || Rediģēt || Atrast
